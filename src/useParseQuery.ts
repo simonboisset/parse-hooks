@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import useNormalized, { NormallizedMethods } from './useNormalized';
+import useNormalize, { NormallizeMethods } from '@onehook/normalize';
+import { useEffect, useRef, useState } from 'react';
 
 const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id: string }>({
   query,
@@ -10,13 +10,12 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
 }: {
   query?: Parse.Query<T>;
   enableLiveQuery?: boolean;
-  onOpen?: (methods: NormallizedMethods<E>) => void;
-  onUpdate?: (entity: T, methods: NormallizedMethods<E>) => void;
-  onDelete?: (entity: T, methods: NormallizedMethods<E>) => void;
+  onOpen?: (methods: NormallizeMethods<E>) => void;
+  onUpdate?: (entity: T, methods: NormallizeMethods<E>) => void;
+  onDelete?: (entity: T, methods: NormallizeMethods<E>) => void;
 }) => {
   const [loading, setLoading] = useState(true);
-  const [entities, { initialize, set, remove, update, setMany }] = useNormalized<E>();
-  const values = useMemo(() => Object.values(entities), [entities]);
+  const [values, { initialize, set, remove, update, setMany, get }] = useNormalize<E>();
 
   const queryString = !!query
     ? JSON.stringify({
@@ -35,6 +34,8 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
   updateRef.current = update;
   const setManyRef = useRef(setMany);
   setManyRef.current = setMany;
+  const getRef = useRef(get);
+  getRef.current = get;
 
   useEffect(() => {
     let unsubscribe: () => void = () => {};
@@ -52,7 +53,7 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
                 update: updateRef.current,
                 set: setRef.current,
                 setMany: setManyRef.current,
-              } as NormallizedMethods<E>)
+              } as NormallizeMethods<E>)
           : async () => {
               const fetchedEntities: any = await memoizedQuery.findAll();
               initializeRef.current(fetchedEntities);
@@ -69,7 +70,8 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
                   update: updateRef.current,
                   set: setRef.current,
                   setMany: setManyRef.current,
-                } as NormallizedMethods<E>)
+                  get: getRef.current,
+                } as NormallizeMethods<E>)
             : async (entity: any) => {
                 await entity.fetchWithInclude(include || []);
                 setRef.current(entity);
@@ -83,7 +85,8 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
                   update: updateRef.current,
                   set: setRef.current,
                   setMany: setManyRef.current,
-                } as NormallizedMethods<E>)
+                  get: getRef.current,
+                } as NormallizeMethods<E>)
             : (entity: any) => {
                 removeRef.current(entity.id);
               };

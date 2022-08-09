@@ -577,6 +577,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@onehook/normalize@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@onehook/normalize/-/normalize-0.1.1.tgz#6cc596630028f1ef176624b97e24cff4ba8798c9"
+  integrity sha512-otl5owHo1QgKRrricJg3i52XIHONvNriNqq+/6J+5FuHkNApd7fn4TwqgT6Jxj+Y+Tor/QRPYoJqn709IoGNHQ==
+
 "@sinclair/typebox@^0.24.1":
   version "0.24.27"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.27.tgz#d55643516a1546174e10da681a8aaa81e757452d"
