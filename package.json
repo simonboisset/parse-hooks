@@ -1,5 +1,5 @@
 {
-  "name": "parse-hooks",
+  "name": "parse-server-hooks",
   "version": "0.1.0",
   "description": "React hooks for parse server",
   "main": "dist/index.js",
@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/simonboisset/parse-hooks"
+    "url": "https://github.com/simonboisset/parse-server-hooks"
   },
   "bugs": {
-    "url": "https://github.com/simonboisset/parse-hooks/issues"
+    "url": "https://github.com/simonboisset/parse-server-hooks/issues"
   },
-  "homepage": "https://github.com/simonboisset/parse-hooks",
+  "homepage": "https://github.com/simonboisset/parse-server-hooks",
   "license": "MIT",
   "prettier": {
     "singleQuote": true,
