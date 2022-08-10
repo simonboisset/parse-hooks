@@ -8,6 +8,23 @@ React hooks for [parse-server](https://parseplatform.org/)
 yarn add parse-server-hooks
 ```
 
+## Initialization
+
+You need to define Parse as a global variable and initialize it before using hooks.
+
+```ts
+// React
+import Parse from 'parse';
+// React native
+import Parse from 'parse/react-native.js';
+Parse.setAsyncStorage(AsyncStorage);
+
+global.Parse = Parse;
+
+Parse.serverURL = serverURL;
+Parse.initialize(applicationId, javascriptKey);
+```
+
 ## Hooks
 
 ### useParseQuery
