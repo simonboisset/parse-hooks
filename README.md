@@ -32,7 +32,7 @@ Parse.initialize(applicationId, javascriptKey);
 This hook return data of a `ParseQuery` and can enable `liveQuery` and rerender on each event.
 
 ```ts
-const query = new Api.Query(MyClass);
+const query = new Parse.Query(MyClass);
 
 // In react component
 const [data, { loading }] = useParseQuery({
