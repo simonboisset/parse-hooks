@@ -1,4 +1,4 @@
-import useNormalize, { NormallizeMethods } from '@onehook/normalize';
+import useList, { ListMethods } from '@onehook/list';
 import { useEffect, useRef, useState } from 'react';
 
 const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id: string }>({
@@ -10,12 +10,12 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
 }: {
   query?: Parse.Query<T>;
   enableLiveQuery?: boolean;
-  onOpen?: (methods: NormallizeMethods<E>) => void;
-  onUpdate?: (entity: T, methods: NormallizeMethods<E>) => void;
-  onDelete?: (entity: T, methods: NormallizeMethods<E>) => void;
+  onOpen?: (methods: ListMethods<E>) => void;
+  onUpdate?: (entity: T, methods: ListMethods<E>) => void;
+  onDelete?: (entity: T, methods: ListMethods<E>) => void;
 }) => {
   const [loading, setLoading] = useState(true);
-  const [values, { initialize, set, remove, update, setMany, get }] = useNormalize<E>();
+  const [values, { initialize, set, remove, update, setMany, get }] = useList<E>();
 
   const queryString = !!query
     ? JSON.stringify({
@@ -53,7 +53,7 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
                 update: updateRef.current,
                 set: setRef.current,
                 setMany: setManyRef.current,
-              } as NormallizeMethods<E>)
+              } as ListMethods<E>)
           : async () => {
               const fetchedEntities: any = await memoizedQuery.findAll();
               initializeRef.current(fetchedEntities);
@@ -71,7 +71,7 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
                   set: setRef.current,
                   setMany: setManyRef.current,
                   get: getRef.current,
-                } as NormallizeMethods<E>)
+                } as ListMethods<E>)
             : async (entity: any) => {
                 await entity.fetchWithInclude(include || []);
                 setRef.current(entity);
@@ -86,7 +86,7 @@ const useParseQuery = <T extends Parse.Object<Parse.Attributes>, E extends { id:
                   set: setRef.current,
                   setMany: setManyRef.current,
                   get: getRef.current,
-                } as NormallizeMethods<E>)
+                } as ListMethods<E>)
             : (entity: any) => {
                 removeRef.current(entity.id);
               };
